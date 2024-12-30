@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://bts551xoh06xl"]
+[gd_scene load_steps=11 format=3 uid="uid://bts551xoh06xl"]
 
 [ext_resource type="PackedScene" uid="uid://xhh682yvl5o7" path="res://scenes/player.tscn" id="1_m53fx"]
+[ext_resource type="Script" path="res://scenes/chunk.gd" id="2_jeew3"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_2fb6n"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -42,6 +43,7 @@ environment = SubResource("Environment_mis0p")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
 transform = Transform3D(7.9, 0, 0, 0, 1, 0, 0, 0, 13.1, 0, 0, 0)
@@ -52,7 +54,7 @@ transform = Transform3D(7.9, 0, 0, 0, 1, 0, 0, 0, 13.1, 0, 0, 0)
 shape = SubResource("ConvexPolygonShape3D_cs8w6")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 19, -8)
 mesh = SubResource("BoxMesh_eok7y")
 surface_material_override/0 = SubResource("StandardMaterial3D_qxbqn")
 
@@ -62,7 +64,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_qxbqn")
 shape = SubResource("ConcavePolygonShape3D_wqvbk")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 5, -4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 19, -4)
 mesh = SubResource("BoxMesh_eok7y")
 surface_material_override/0 = SubResource("StandardMaterial3D_qxbqn")
 
@@ -72,7 +74,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_qxbqn")
 shape = SubResource("ConcavePolygonShape3D_wqvbk")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 5, -4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 19, -4)
 mesh = SubResource("BoxMesh_eok7y")
 surface_material_override/0 = SubResource("StandardMaterial3D_qxbqn")
 
@@ -82,7 +84,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_qxbqn")
 shape = SubResource("ConcavePolygonShape3D_wqvbk")
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 19, 4)
 mesh = SubResource("BoxMesh_eok7y")
 surface_material_override/0 = SubResource("StandardMaterial3D_qxbqn")
 
@@ -90,3 +92,6 @@ surface_material_override/0 = SubResource("StandardMaterial3D_qxbqn")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D4/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_wqvbk")
+
+[node name="Chunk" type="Node3D" parent="."]
+script = ExtResource("2_jeew3")

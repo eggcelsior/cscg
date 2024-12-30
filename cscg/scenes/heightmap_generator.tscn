@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://5iciyfn15mmf"]
+
+[ext_resource type="Script" path="res://scenes/heightmap_generator.gd" id="1_0dr8c"]
+
+[node name="HeightmapGenerator" type="Node2D"]
+script = ExtResource("1_0dr8c")
