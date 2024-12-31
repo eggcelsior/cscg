@@ -3,7 +3,7 @@ class_name HeightmapGenerator
 
 var height_noise: FastNoiseLite
 var height_map: PackedFloat64Array
-@export var resolution: int = 1024
+@export var resolution: int = 256
 
 func _ready():
 	init_noise()
@@ -14,7 +14,7 @@ func init_noise():
 	height_noise = FastNoiseLite.new()
 	height_noise.seed = randi()
 	height_noise.noise_type = FastNoiseLite.TYPE_PERLIN #Perlin is default but in case you want to change it change it here
-	height_noise.frequency = 0.003
+	height_noise.frequency = 0.001
 	
 func generate_heightmap():
 	for y in resolution:
