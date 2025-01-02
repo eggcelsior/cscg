@@ -3,7 +3,7 @@ class_name HeightmapGenerator
 
 var height_noise: FastNoiseLite
 var height_map: PackedFloat64Array
-@export var resolution: int = 256
+@export var resolution: int = 1024
 
 func _ready():
 	init_noise()

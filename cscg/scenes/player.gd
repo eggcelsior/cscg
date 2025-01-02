@@ -16,7 +16,6 @@ var t_bob = 0.0 #Time in bob
 @onready var camera: Camera3D = $head/Camera3D
 
 
-
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	

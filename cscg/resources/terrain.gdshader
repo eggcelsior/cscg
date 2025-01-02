@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode cull_disabled, wireframe;
+//render_mode cull_disabled, wireframe;
 uniform sampler2D temp_texture;
 
 uniform sampler2D heightmap;

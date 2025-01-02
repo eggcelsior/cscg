@@ -3,20 +3,19 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cuj5ctywhkb7o"
-path.s3tc="res://.godot/imported/height_map_-471058467.png-99720c01b1f1f9b2d3734327f506934e.s3tc.ctex"
+path="res://.godot/imported/height_map_-471058467.png-99720c01b1f1f9b2d3734327f506934e.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://resources/height_map_-471058467.png"
-dest_files=["res://.godot/imported/height_map_-471058467.png-99720c01b1f1f9b2d3734327f506934e.s3tc.ctex"]
+dest_files=["res://.godot/imported/height_map_-471058467.png-99720c01b1f1f9b2d3734327f506934e.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1

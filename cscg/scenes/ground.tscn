@@ -2,7 +2,7 @@
 
 [ext_resource type="Shader" path="res://resources/terrain.gdshader" id="1_8d603"]
 [ext_resource type="Script" path="res://scenes/terrain.gd" id="1_qfx7x"]
-[ext_resource type="Texture2D" uid="uid://cm680nojp8j00" path="res://resources/height_map_438432756.png" id="2_uncat"]
+[ext_resource type="Texture2D" uid="uid://vgf1hj71nv6g" path="res://resources/height_map_600912875.png" id="2_2duri"]
 [ext_resource type="Texture2D" uid="uid://bbflc3cbwdgon" path="res://assets/art/461223101.jpg" id="3_dpqaq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mylyw"]
@@ -10,7 +10,7 @@ render_priority = 0
 shader = ExtResource("1_8d603")
 shader_parameter/height_ratio = 1.0
 shader_parameter/temp_texture = ExtResource("3_dpqaq")
-shader_parameter/heightmap = ExtResource("2_uncat")
+shader_parameter/heightmap = ExtResource("2_2duri")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_r1dxu"]
 lightmap_size_hint = Vector2i(12, 12)
