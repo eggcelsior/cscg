@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://bts551xoh06xl"]
 
 [ext_resource type="PackedScene" uid="uid://xhh682yvl5o7" path="res://scenes/player.tscn" id="1_m53fx"]
-[ext_resource type="Script" path="res://scenes/marching_cubes_test.gd" id="2_x4typ"]
+[ext_resource type="Script" path="res://scenes/generation_test.gd" id="3_1irwe"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_2fb6n"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -17,7 +17,8 @@ tonemap_mode = 2
 glow_enabled = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8pxd7"]
-cull_mode = 1
+transparency = 1
+albedo_color = Color(1, 1, 1, 0)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_xsfnp"]
 size = Vector2(200, 200)
@@ -25,8 +26,9 @@ size = Vector2(200, 200)
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_i13wj"]
 data = PackedVector3Array(100, 0, 100, -100, 0, 100, 100, 0, -100, -100, 0, 100, -100, 0, -100, 100, 0, -100)
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_66g0r"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_5lscr"]
 noise_type = 3
+fractal_lacunarity = 0.03
 
 [node name="world" type="Node3D"]
 
@@ -51,8 +53,7 @@ mesh = SubResource("PlaneMesh_xsfnp")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_i13wj")
 
-[node name="marching cubes" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -33, 0)
-script = ExtResource("2_x4typ")
-NOISE = SubResource("FastNoiseLite_66g0r")
-FLAT_SHADED = true
+[node name="generation_test" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+script = ExtResource("3_1irwe")
+heightmap = SubResource("FastNoiseLite_5lscr")

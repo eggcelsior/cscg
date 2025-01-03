@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://xhh682yvl5o7"]
 
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_8joij"]
-[ext_resource type="AudioStream" uid="uid://8tusd8jy7plh" path="res://assets/music/Path to Lake Land.ogg" id="2_r1gid"]
+[ext_resource type="AudioStream" uid="uid://6b2w50akub7i" path="res://assets/music/08 - Missing Pieces (DEMO).mp3" id="2_gm0os"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_up6ml"]
 
@@ -30,7 +30,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.64015, 0)
 [node name="Camera3D" type="Camera3D" parent="head"]
 
 [node name="temporary_music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("2_r1gid")
+stream = ExtResource("2_gm0os")
 volume_db = -15.0
 autoplay = true
 bus = &"Music"
