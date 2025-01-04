@@ -48,6 +48,7 @@ func generate():
 	
 	#print(tiles[0][0].vertices_position, "\n", tiles[0][1].vertices_position)
 	locate_neighbors()
+	print(tiles[1][0].vertices, "\n", tiles[1][1].vertices)
 	return
 	var st = SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
@@ -157,17 +158,17 @@ func locate_neighbors():
 			if right != null && right.vertices[0] < tiles[y][x].vertices[1]:
 				tiles[y][x].vertices[1] = right.vertices[0]
 			#CHECK TOP RIGHT
-			if right != null && right.vertices[2] < tiles[y][x].vertices[2]:
-				tiles[y][x].vertices[2] = right.vertices[2]
-			if top_right != null && top_right.vertices[0] < tiles[y][x].vertices[2]:
-				tiles[y][x].vertices[2] = top_right.vertices[0]
-			if top_middle != null && top_middle.vertices[1] < tiles[y][x].vertices[2]:
-				tiles[y][x].vertices[2] = top_middle.vertices[1]
+			if right != null && right.vertices[2] < tiles[y][x].vertices[3]:
+				tiles[y][x].vertices[3] = right.vertices[2]
+			if top_right != null && top_right.vertices[0] < tiles[y][x].vertices[3]:
+				tiles[y][x].vertices[3] = top_right.vertices[0]
+			if top_middle != null && top_middle.vertices[1] < tiles[y][x].vertices[3]:
+				tiles[y][x].vertices[3] = top_middle.vertices[1]
 			#CHECK TOP LEFT
-			if top_middle != null && top_middle.vertices[0] < tiles[y][x].vertices[3]:
-				tiles[y][x].vertices[3] = top_middle.vertices[0]
-			if top_left != null && top_left.vertices[1] < tiles[y][x].vertices[3]:
-				tiles[y][x].vertices[3] = top_left.vertices[1]
-			if left != null && left.vertices[3] < tiles[y][x].vertices[3]:
-				tiles[y][x].vertices[3] = left.vertices[3]
+			if top_middle != null && top_middle.vertices[0] < tiles[y][x].vertices[2]:
+				tiles[y][x].vertices[2] = top_middle.vertices[0]
+			if top_left != null && top_left.vertices[1] < tiles[y][x].vertices[2]:
+				tiles[y][x].vertices[2] = top_left.vertices[1]
+			if left != null && left.vertices[3] < tiles[y][x].vertices[2]:
+				tiles[y][x].vertices[2] = left.vertices[3]
 			#END CHECK VERTICES

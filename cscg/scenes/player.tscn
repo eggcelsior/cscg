@@ -6,12 +6,6 @@
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_up6ml"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_67c82"]
-resource_local_to_scene = false
-resource_name = ""
-custom_solver_bias = 0.0
-margin = 0.04
-radius = 0.5
-height = 2.0
 
 [node name="Player" type="CharacterBody3D" groups=["player"]]
 script = ExtResource("1_8joij")
