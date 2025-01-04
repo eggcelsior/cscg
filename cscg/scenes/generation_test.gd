@@ -33,32 +33,51 @@ func generate():
 	#var x_count = 0
 	#var y_count = 0
 	var vertex_data: PackedFloat32Array = []
-	for i in resolution * 2:
-		for j in resolution * 2:
-			vertex_data.append(heightmap.get_noise_2d(j, i))
-	var previous_position = 0
-	var sorted_vectors = []
+	var start_noise_position = Vector2(1, 1)
+	var multiplyer := 10.0
+	for y in resolution:
+		for x in resolution:
+			tiles[y][x].vertices[0] = heightmap.get_noise_2d(start_noise_position.x, start_noise_position.y) * multiplyer
+			tiles[y][x].vertices[1] = heightmap.get_noise_2d(start_noise_position.x+1, start_noise_position.y) * multiplyer
+			tiles[y][x].vertices[2] = heightmap.get_noise_2d(start_noise_position.x, start_noise_position.y+1) * multiplyer
+			tiles[y][x].vertices[3] = heightmap.get_noise_2d(start_noise_position.x+1, start_noise_position.y+1) * multiplyer
+			start_noise_position.x += 1
+			print(heightmap.get_noise_2d(start_noise_position.x, start_noise_position.y+1), " ", heightmap.get_noise_2d(start_noise_position.x+1, start_noise_position.y+1))
+			print(heightmap.get_noise_2d(start_noise_position.x, start_noise_position.y), " ", heightmap.get_noise_2d(start_noise_position.x+1, start_noise_position.y))
+			print("\n", y, "\n")
+		start_noise_position.x = 1
+		start_noise_position.y += 1
+	#var previous_position = 0
+	#var sorted_vectors = []
+	#for y in resolution:
+		#for x in resolution:
+			#for i in 4:
+				#tiles[y][x].vertices[i] = vertex_data[previous_position]
+				#previous_position += 1
+				#tiles[y][x].vertices_position[i].y = tiles[y][x].vertices[i]
+				#sorted_vectors.append(tiles[y][x].vertices_position[i])
+	
+	#print(tiles[0][0].vertices_position, "\n", tiles[0][1].vertices_position)
+	#locate_neighbors()
 	for y in resolution:
 		for x in resolution:
 			for i in 4:
-				tiles[y][x].vertices[i] = vertex_data[previous_position]
-				previous_position += 1
 				tiles[y][x].vertices_position[i].y = tiles[y][x].vertices[i]
-				sorted_vectors.append(tiles[y][x].vertices_position[i])
-	
-	#print(tiles[0][0].vertices_position, "\n", tiles[0][1].vertices_position)
-	locate_neighbors()
-	print(tiles[1][0].vertices, "\n", tiles[1][1].vertices)
-	return
+			#print(tiles[y][x].vertices)
+			#if x % 2 != 0:
+				#print("\n\n")
 	var st = SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
-	
 	st.set_smooth_group(-1)
-	st.add_vertex(Vector3(0, 0, 0))
-	st.add_vertex(Vector3(1, 0, 0))
-	st.add_vertex(Vector3(1, 0, 1))
-	#for v in vertex_data:
-		#st.add_vertex(sorted_vectors[v])
+	
+	for y in resolution:
+		for x in resolution:
+				st.add_vertex(tiles[y][x].vertices_position[0])
+				st.add_vertex(tiles[y][x].vertices_position[1])
+				st.add_vertex(tiles[y][x].vertices_position[2])
+				st.add_vertex(tiles[y][x].vertices_position[3])
+				st.add_vertex(tiles[y][x].vertices_position[2])
+				st.add_vertex(tiles[y][x].vertices_position[1])
 	st.generate_normals()
 	st.index()
 	
@@ -146,29 +165,70 @@ func locate_neighbors():
 			#CHECK BOTTOM LEFT
 			if left != null && left.vertices[1] < tiles[y][x].vertices[0]:
 				tiles[y][x].vertices[0] = left.vertices[1]
+			else:
+				if left != null:
+					left.vertices[1] = tiles[y][x].vertices[0]
 			if bottom_left != null && bottom_left.vertices[3] < tiles[y][x].vertices[0]:
 				tiles[y][x].vertices[0] = bottom_left.vertices[3]
+			else:
+				if bottom_left != null:
+					bottom_left.vertices[3] = tiles[y][x].vertices[0]
 			if bottom_middle != null && bottom_middle.vertices[2] < tiles[y][x].vertices[0]:
 				tiles[y][x].vertices[0] = bottom_middle.vertices[2]
+			else:
+				if bottom_middle != null:
+					bottom_middle.vertices[2] = tiles[y][x].vertices[0]
 			#CHECK BOTTOM RIGHT
 			if bottom_middle != null && bottom_middle.vertices[3] < tiles[y][x].vertices[1]:
 				tiles[y][x].vertices[1] = bottom_middle.vertices[3]
+			else:
+				if bottom_middle != null:
+					bottom_middle.vertices[3] = tiles[y][x].vertices[1]
 			if bottom_right != null && bottom_right.vertices[2] < tiles[y][x].vertices[1]:
 				tiles[y][x].vertices[1] = bottom_right.vertices[2]
+			else:
+				if bottom_right != null:
+					bottom_right.vertices[2] = tiles[y][x].vertices[0]
 			if right != null && right.vertices[0] < tiles[y][x].vertices[1]:
 				tiles[y][x].vertices[1] = right.vertices[0]
+			else:
+				if right != null:
+					right.vertices[0] = tiles[y][x].vertices[1]
 			#CHECK TOP RIGHT
 			if right != null && right.vertices[2] < tiles[y][x].vertices[3]:
 				tiles[y][x].vertices[3] = right.vertices[2]
+			else:
+				if right != null:
+					right.vertices[2] = tiles[y][x].vertices[3]
 			if top_right != null && top_right.vertices[0] < tiles[y][x].vertices[3]:
 				tiles[y][x].vertices[3] = top_right.vertices[0]
+			else:
+				if top_right != null:
+					top_right.vertices[0] = tiles[y][x].vertices[3]
 			if top_middle != null && top_middle.vertices[1] < tiles[y][x].vertices[3]:
 				tiles[y][x].vertices[3] = top_middle.vertices[1]
+			else:
+				if top_middle != null:
+					top_middle.vertices[1] = tiles[y][x].vertices[3]
 			#CHECK TOP LEFT
 			if top_middle != null && top_middle.vertices[0] < tiles[y][x].vertices[2]:
 				tiles[y][x].vertices[2] = top_middle.vertices[0]
+			else:
+				if top_middle != null:
+					top_middle.vertices[0] = tiles[y][x].vertices[2]
 			if top_left != null && top_left.vertices[1] < tiles[y][x].vertices[2]:
 				tiles[y][x].vertices[2] = top_left.vertices[1]
+			else:
+				if top_left != null:
+					top_left.vertices[1] = tiles[y][x].vertices[2]
 			if left != null && left.vertices[3] < tiles[y][x].vertices[2]:
 				tiles[y][x].vertices[2] = left.vertices[3]
+			else:
+				if left != null:
+					left.vertices[3] = tiles[y][x].vertices[2]
 			#END CHECK VERTICES
+	print(tiles[1][2].vertices[2], " ", tiles[1][2].vertices[3], "___", tiles[1][3].vertices[2], " ", tiles[1][3].vertices[3])
+	print(tiles[1][2].vertices[0], " ", tiles[1][2].vertices[1], "___", tiles[1][3].vertices[0], " ", tiles[1][3].vertices[1])
+	print(tiles[0][2].vertices[2], " ", tiles[0][2].vertices[3], "___", tiles[0][3].vertices[2], " ", tiles[0][3].vertices[3])
+	print(tiles[0][2].vertices[0], " ", tiles[0][2].vertices[1], "___", tiles[0][3].vertices[0], " ", tiles[0][3].vertices[1])
+		
