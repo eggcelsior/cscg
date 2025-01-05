@@ -15,7 +15,9 @@ func _ready():
 		for j in tiles[i].size():
 			tiles[i][j] = Tile.new()
 			var new_tile: Tile = tiles[i][j]
-			new_tile.center_position = Vector3(j*tile_size, 0, i*tile_size)
+			new_tile.center_position = Vector3((j + global_position.x / tile_size), 0, (i + global_position.z / tile_size))
+			new_tile.center_position *= tile_size
+			print(new_tile.center_position, " ", j, " ", j + global_position.x)
 			new_tile.vertices.resize(4)
 			new_tile.vertices_position.resize(4)
 			for k in 4:
@@ -28,18 +30,23 @@ func _ready():
 						new_tile.vertices_position[k] = Vector3(new_tile.center_position.x - (tile_size / 2), 0, new_tile.center_position.z + (tile_size / 2))
 					3:
 						new_tile.vertices_position[k] = Vector3(new_tile.center_position.x + (tile_size / 2), 0, new_tile.center_position.z + (tile_size / 2))
+			print(new_tile.vertices_position)
 	generate()
-
-func deform_tile(ray_pos: Vector3, mouse_button: int):
+func find_closest_tile(ray_pos: Vector3):
 	var closest_tile: Tile = null
 	var closest_distance: float = INF
 	
 	for y in resolution:
 		for x in resolution:
-			var distance: float = ray_pos.distance_squared_to(tiles[y][x].center_position)
+			var distance: float = ray_pos.distance_squared_to(tiles[y][x].center_position + global_position) 
 			if distance < closest_distance:
 				closest_tile = tiles[y][x]
 				closest_distance = distance
+	return closest_tile
+
+func deform_tile(ray_pos: Vector3, mouse_button: int):
+	var closest_tile: Tile = find_closest_tile(ray_pos)
+	print(closest_tile.center_position, " ", get_tree().get_first_node_in_group("player").global_position)
 	#SHOULD NOW HAVE CLOSEST TILE
 	var smallest_vertex: float
 	var value: float = INF
@@ -154,7 +161,7 @@ func generate():
 	#var x_count = 0
 	#var y_count = 0
 	var vertex_data: PackedFloat32Array = []
-	var start_noise_position = Vector2(1, 1)
+	var start_noise_position = Vector2(1+global_position.x, 1+global_position.z)
 	var multiplyer := terrain_height_multiplyer * tile_size
 	for y in resolution:
 		for x in resolution:
@@ -163,7 +170,7 @@ func generate():
 			tiles[y][x].vertices[2] = heightmap.get_noise_2d(start_noise_position.x, start_noise_position.y+1) * multiplyer
 			tiles[y][x].vertices[3] = heightmap.get_noise_2d(start_noise_position.x+1, start_noise_position.y+1) * multiplyer
 			start_noise_position.x += 1
-		start_noise_position.x = 1
+		start_noise_position.x = 1+global_position.x
 		start_noise_position.y += 1
 	#var previous_position = 0
 	#var sorted_vectors = []

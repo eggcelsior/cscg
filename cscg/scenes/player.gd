@@ -1,8 +1,7 @@
 extends CharacterBody3D
+class_name Player
 
 var speed
-var walk_speed: float = 5.0
-var sprint_speed: float = 8.0
 var jump_velocity: float = 4.5
 
 @export var sensitivity = 0.004
@@ -15,7 +14,25 @@ var t_bob = 0.0 #Time in bob
 @onready var ray: RayCast3D = $head/Camera3D/RayCast3D
 @onready var head: Node3D = $head
 @onready var camera: Camera3D = $head/Camera3D
+@onready var line_renderer: Node3D = $"../LineRenderer"
 
+var current_tile: Tile #The tile you're lookin at
+
+#region Player Stats
+var walk_speed: float = 3.5
+var sprint_speed: float = 5.0
+var attack_damage: float = 1.0
+var defense: float = 1.0
+var gather_speed: float = 1.0
+var mine_speed: float = 1.0
+var mining_chance: float = 0.1
+var gathering_chance: float = 0.1
+var hunting_chance: float = 0.1
+
+var hunger: float = 100.0
+var health: float = 100.0
+@export var player_range: float = 24
+#endregion
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -28,7 +45,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("quit"):
-		get_tree().quit()
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	
 	if !is_on_floor():
 		velocity.y -= gravity * delta
@@ -41,6 +58,8 @@ func _physics_process(delta: float) -> void:
 	else:
 		speed = walk_speed
 	
+	find_closest_tile()
+	
 	if Input.is_action_just_pressed("left_click"):
 		ray.target_position = Vector3(0, 0, -150)
 		ray.force_raycast_update()
@@ -49,7 +68,15 @@ func _physics_process(delta: float) -> void:
 			var collider = ray.get_collider()
 			var point = ray.get_collision_point()
 			if collider.get_parent() is GenTest:
+				current_tile = collider.get_parent().find_closest_tile(point)
+				if current_tile.center_position.distance_squared_to(global_position) > collider.get_parent().tile_size * player_range:
+					return
 				collider.get_parent().deform_tile(point, 0)
+				#line_renderer.clear_meshes()
+				#line_renderer.render_line(current_tile.vertices_position[0], current_tile.vertices_position[1])
+				#line_renderer.render_line(current_tile.vertices_position[0], current_tile.vertices_position[2])
+				#line_renderer.render_line(current_tile.vertices_position[2], current_tile.vertices_position[3])
+				#line_renderer.render_line(current_tile.vertices_position[3], current_tile.vertices_position[1])
 				
 	if Input.is_action_just_pressed("right_click"):
 		ray.target_position = Vector3(0, 0, -150)
@@ -59,7 +86,15 @@ func _physics_process(delta: float) -> void:
 			var collider = ray.get_collider()
 			var point = ray.get_collision_point()
 			if collider.get_parent() is GenTest:
+				current_tile = collider.get_parent().find_closest_tile(point)
+				if current_tile.center_position.distance_squared_to(global_position) > collider.get_parent().tile_size * player_range:
+					return
 				collider.get_parent().deform_tile(point, 1)
+				#line_renderer.clear_meshes()
+				#line_renderer.render_line(current_tile.vertices_position[0], current_tile.vertices_position[1])
+				#line_renderer.render_line(current_tile.vertices_position[0], current_tile.vertices_position[2])
+				#line_renderer.render_line(current_tile.vertices_position[2], current_tile.vertices_position[3])
+				#line_renderer.render_line(current_tile.vertices_position[3], current_tile.vertices_position[1])
 
 	if Input.is_action_just_pressed("middle_click"):
 		ray.target_position = Vector3(0, 0, -150)
@@ -69,7 +104,15 @@ func _physics_process(delta: float) -> void:
 			var collider = ray.get_collider()
 			var point = ray.get_collision_point()
 			if collider.get_parent() is GenTest:
+				current_tile = collider.get_parent().find_closest_tile(point)
+				if current_tile.center_position.distance_squared_to(global_position) > collider.get_parent().tile_size * player_range:
+					return
 				collider.get_parent().deform_tile(point, 3)
+				#line_renderer.clear_meshes()
+				#line_renderer.render_line(current_tile.vertices_position[0], current_tile.vertices_position[1])
+				#line_renderer.render_line(current_tile.vertices_position[0], current_tile.vertices_position[2])
+				#line_renderer.render_line(current_tile.vertices_position[2], current_tile.vertices_position[3])
+				#line_renderer.render_line(current_tile.vertices_position[3], current_tile.vertices_position[1])
 	
 	var input_dir = Input.get_vector("left", "right", "forward", "backward")
 	var dir = (head.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
@@ -94,3 +137,21 @@ func headbob(time):
 	pos.y = sin(time * bob_frequency) * bob_amplitude
 	pos.x = cos(time * bob_frequency / 2) * bob_amplitude
 	return pos
+
+func find_closest_tile():
+	ray.target_position = Vector3(0, 0, -150)
+	ray.force_raycast_update()
+		
+	if ray.is_colliding():
+		var collider = ray.get_collider()
+		var point = ray.get_collision_point()
+		if collider.get_parent() is GenTest:
+			current_tile = collider.get_parent().find_closest_tile(point)
+			if current_tile.center_position.distance_squared_to(global_position) > collider.get_parent().tile_size * player_range:
+				line_renderer.clear_meshes()
+				return
+			line_renderer.clear_meshes()
+			line_renderer.render_line(current_tile.vertices_position[0] + collider.global_position, current_tile.vertices_position[1] + collider.global_position)
+			line_renderer.render_line(current_tile.vertices_position[0] + collider.global_position, current_tile.vertices_position[2] + collider.global_position)
+			line_renderer.render_line(current_tile.vertices_position[2] + collider.global_position, current_tile.vertices_position[3] + collider.global_position)
+			line_renderer.render_line(current_tile.vertices_position[3] + collider.global_position, current_tile.vertices_position[1] + collider.global_position)
