@@ -53,3 +53,7 @@ shape = SubResource("ConcavePolygonShape3D_i13wj")
 [node name="generation_test" type="MeshInstance3D" parent="."]
 script = ExtResource("3_1irwe")
 heightmap = SubResource("FastNoiseLite_5lscr")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="generation_test"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="generation_test/StaticBody3D"]

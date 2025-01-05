@@ -12,6 +12,7 @@ var bob_frequency: float = 2.0
 var bob_amplitude: float = 0.08
 var t_bob = 0.0 #Time in bob
 
+@onready var ray: RayCast3D = $head/Camera3D/RayCast3D
 @onready var head: Node3D = $head
 @onready var camera: Camera3D = $head/Camera3D
 
@@ -39,6 +40,16 @@ func _physics_process(delta: float) -> void:
 		speed = sprint_speed
 	else:
 		speed = walk_speed
+	
+	if Input.is_action_just_pressed("left_click"):
+		ray.target_position = Vector3(0, 0, -150)
+		ray.force_raycast_update()
+		
+		if ray.is_colliding():
+			var collider = ray.get_collider()
+			var point = ray.get_collision_point()
+			if collider.get_parent() is GenTest:
+				collider.get_parent().deform_tile(point)
 	
 	var input_dir = Input.get_vector("left", "right", "forward", "backward")
 	var dir = (head.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
