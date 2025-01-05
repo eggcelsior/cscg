@@ -30,7 +30,7 @@ func _ready():
 						new_tile.vertices_position[k] = Vector3(new_tile.center_position.x + (tile_size / 2), 0, new_tile.center_position.z + (tile_size / 2))
 	generate()
 
-func deform_tile(ray_pos: Vector3):
+func deform_tile(ray_pos: Vector3, mouse_button: int):
 	var closest_tile: Tile = null
 	var closest_distance: float = INF
 	
@@ -42,54 +42,87 @@ func deform_tile(ray_pos: Vector3):
 				closest_distance = distance
 	#SHOULD NOW HAVE CLOSEST TILE
 	var smallest_vertex: float
-	var smallest_value: float = INF
+	var value: float = INF
 	for i in 4:
-		if closest_tile.vertices[i] < smallest_value:
+		if closest_tile.vertices[i] < value:
 			smallest_vertex = closest_tile.vertices[i]
-			smallest_value = closest_tile.vertices[i]
+			value = closest_tile.vertices[i]
 	#NOW HAS SMALLEST VERTEX VALUE
 	##SMALLEST VERTEX VALUE CAN MAKE THE TILE GO UP OR DOWN DEPENDING ON ITS VALUE (DOESN'T HAVE TO BE SMALLEST RIGHT NOW, THAT'S JUST FOR FLATTENING LMAO)
-	for i in 4:
-		closest_tile.vertices[i] = smallest_vertex
-	#if closest_tile.bottom_left != null:
-		#closest_tile.bottom_left.vertices[3] = smallest_vertex
-	if closest_tile.left != null:
-		if closest_tile.left.bottom_middle != null:
-			closest_tile.left.bottom_middle.vertices[3] = smallest_vertex
-		
-	if closest_tile.bottom_middle != null:
-		closest_tile.bottom_middle.vertices[2] = smallest_vertex
-		closest_tile.bottom_middle.vertices[3] = smallest_vertex
-		
-	#if closest_tile.bottom_right != null:
-		#closest_tile.bottom_right.vertices[2] = smallest_vertex
-	if closest_tile.right != null:
-		if closest_tile.right.bottom_middle != null:
-			closest_tile.right.bottom_middle.vertices[2] = smallest_vertex
-		
-	if closest_tile.left != null:
-		closest_tile.left.vertices[1] = smallest_vertex
-		closest_tile.left.vertices[3] = smallest_vertex
-		
-	if closest_tile.right != null:
-		closest_tile.right.vertices[0] = smallest_vertex
-		closest_tile.right.vertices[2] = smallest_vertex
-		
-	#if closest_tile.top_left != null:
-		#closest_tile.top_left.vertices[1] = smallest_vertex
-	if closest_tile.left != null:
-		if closest_tile.left.top_middle != null:
-			closest_tile.left.top_middle.vertices[1] = smallest_vertex
-		
-	if closest_tile.top_middle != null:
-		closest_tile.top_middle.vertices[0] = smallest_vertex
-		closest_tile.top_middle.vertices[1] = smallest_vertex
-		
-	#if closest_tile.top_right != null:
-		#closest_tile.top_right.vertices[0] = smallest_vertex
-	if closest_tile.right != null:
-		if closest_tile.right.top_middle != null:
-			closest_tile.right.top_middle.vertices[0] = smallest_vertex
+	if mouse_button == 3:
+		for i in 4:
+			closest_tile.vertices[i] = value
+
+		if closest_tile.left != null:
+			if closest_tile.left.bottom_middle != null:
+				closest_tile.left.bottom_middle.vertices[3] = value
+			
+		if closest_tile.bottom_middle != null:
+			closest_tile.bottom_middle.vertices[2] = value
+			closest_tile.bottom_middle.vertices[3] = value
+			
+		if closest_tile.right != null:
+			if closest_tile.right.bottom_middle != null:
+				closest_tile.right.bottom_middle.vertices[2] = value
+			
+		if closest_tile.left != null:
+			closest_tile.left.vertices[1] = value
+			closest_tile.left.vertices[3] = value
+			
+		if closest_tile.right != null:
+			closest_tile.right.vertices[0] = value
+			closest_tile.right.vertices[2] = value
+			
+		if closest_tile.left != null:
+			if closest_tile.left.top_middle != null:
+				closest_tile.left.top_middle.vertices[1] = value
+			
+		if closest_tile.top_middle != null:
+			closest_tile.top_middle.vertices[0] = value
+			closest_tile.top_middle.vertices[1] = value
+			
+		if closest_tile.right != null:
+			if closest_tile.right.top_middle != null:
+				closest_tile.right.top_middle.vertices[0] = value
+	else:
+		if mouse_button == 0:
+			value = -0.5 #MAYBE CHANGE
+		if mouse_button == 1:
+			value = 0.5 #MAYBE CHANGE
+		for i in 4:
+			closest_tile.vertices[i] += value
+
+		if closest_tile.left != null:
+			if closest_tile.left.bottom_middle != null:
+				closest_tile.left.bottom_middle.vertices[3] += value
+			
+		if closest_tile.bottom_middle != null:
+			closest_tile.bottom_middle.vertices[2] += value
+			closest_tile.bottom_middle.vertices[3] += value
+			
+		if closest_tile.right != null:
+			if closest_tile.right.bottom_middle != null:
+				closest_tile.right.bottom_middle.vertices[2] += value
+			
+		if closest_tile.left != null:
+			closest_tile.left.vertices[1] += value
+			closest_tile.left.vertices[3] += value
+			
+		if closest_tile.right != null:
+			closest_tile.right.vertices[0] += value
+			closest_tile.right.vertices[2] += value
+			
+		if closest_tile.left != null:
+			if closest_tile.left.top_middle != null:
+				closest_tile.left.top_middle.vertices[1] += value
+			
+		if closest_tile.top_middle != null:
+			closest_tile.top_middle.vertices[0] += value
+			closest_tile.top_middle.vertices[1] += value
+			
+		if closest_tile.right != null:
+			if closest_tile.right.top_middle != null:
+				closest_tile.right.top_middle.vertices[0] += value
 	rebuild_mesh()
 
 func rebuild_mesh():

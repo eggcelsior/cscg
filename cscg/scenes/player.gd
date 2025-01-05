@@ -49,7 +49,27 @@ func _physics_process(delta: float) -> void:
 			var collider = ray.get_collider()
 			var point = ray.get_collision_point()
 			if collider.get_parent() is GenTest:
-				collider.get_parent().deform_tile(point)
+				collider.get_parent().deform_tile(point, 0)
+				
+	if Input.is_action_just_pressed("right_click"):
+		ray.target_position = Vector3(0, 0, -150)
+		ray.force_raycast_update()
+		
+		if ray.is_colliding():
+			var collider = ray.get_collider()
+			var point = ray.get_collision_point()
+			if collider.get_parent() is GenTest:
+				collider.get_parent().deform_tile(point, 1)
+
+	if Input.is_action_just_pressed("middle_click"):
+		ray.target_position = Vector3(0, 0, -150)
+		ray.force_raycast_update()
+		
+		if ray.is_colliding():
+			var collider = ray.get_collider()
+			var point = ray.get_collision_point()
+			if collider.get_parent() is GenTest:
+				collider.get_parent().deform_tile(point, 3)
 	
 	var input_dir = Input.get_vector("left", "right", "forward", "backward")
 	var dir = (head.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
