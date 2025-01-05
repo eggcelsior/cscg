@@ -39,9 +39,10 @@ shadow_enabled = true
 environment = SubResource("Environment_mis0p")
 
 [node name="Player" parent="." instance=ExtResource("1_m53fx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 46, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 59, 0)
 material_override = SubResource("StandardMaterial3D_8pxd7")
 mesh = SubResource("PlaneMesh_xsfnp")
 
@@ -53,6 +54,7 @@ shape = SubResource("ConcavePolygonShape3D_i13wj")
 [node name="generation_test" type="MeshInstance3D" parent="."]
 script = ExtResource("3_1irwe")
 heightmap = SubResource("FastNoiseLite_5lscr")
+tile_size = 2.0
 
 [node name="StaticBody3D" type="StaticBody3D" parent="generation_test"]
 

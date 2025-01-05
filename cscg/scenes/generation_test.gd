@@ -5,6 +5,7 @@ var tiles = []
 @export var resolution: int = 16
 @export var heightmap: FastNoiseLite
 @export var terrain_height_multiplyer: float = 10.0
+@export var tile_size: float = 1
 
 func _ready():
 	tiles.resize(resolution)
@@ -14,19 +15,19 @@ func _ready():
 		for j in tiles[i].size():
 			tiles[i][j] = Tile.new()
 			var new_tile: Tile = tiles[i][j]
-			new_tile.center_position = Vector3(j, 0, i)
+			new_tile.center_position = Vector3(j*tile_size, 0, i*tile_size)
 			new_tile.vertices.resize(4)
 			new_tile.vertices_position.resize(4)
 			for k in 4:
 				match k:
 					0:
-						new_tile.vertices_position[k] = Vector3(new_tile.center_position.x - 0.5, 0, new_tile.center_position.z - 0.5)
+						new_tile.vertices_position[k] = Vector3(new_tile.center_position.x - (tile_size / 2), 0, new_tile.center_position.z - (tile_size / 2))
 					1:
-						new_tile.vertices_position[k] = Vector3(new_tile.center_position.x + 0.5, 0, new_tile.center_position.z - 0.5)
+						new_tile.vertices_position[k] = Vector3(new_tile.center_position.x + (tile_size / 2), 0, new_tile.center_position.z - (tile_size / 2))
 					2:
-						new_tile.vertices_position[k] = Vector3(new_tile.center_position.x - 0.5, 0, new_tile.center_position.z + 0.5)
+						new_tile.vertices_position[k] = Vector3(new_tile.center_position.x - (tile_size / 2), 0, new_tile.center_position.z + (tile_size / 2))
 					3:
-						new_tile.vertices_position[k] = Vector3(new_tile.center_position.x + 0.5, 0, new_tile.center_position.z + 0.5)
+						new_tile.vertices_position[k] = Vector3(new_tile.center_position.x + (tile_size / 2), 0, new_tile.center_position.z + (tile_size / 2))
 	generate()
 
 func deform_tile(ray_pos: Vector3):
@@ -121,7 +122,7 @@ func generate():
 	#var y_count = 0
 	var vertex_data: PackedFloat32Array = []
 	var start_noise_position = Vector2(1, 1)
-	var multiplyer := terrain_height_multiplyer
+	var multiplyer := terrain_height_multiplyer * tile_size
 	for y in resolution:
 		for x in resolution:
 			tiles[y][x].vertices[0] = heightmap.get_noise_2d(start_noise_position.x, start_noise_position.y) * multiplyer
@@ -175,7 +176,7 @@ func locate_neighbors():
 			if x == 0:
 				tiles[y][x].left = null
 				tiles[y][x].right = tiles[y][x+1]
-			elif x == 15:
+			elif x == resolution - 1:
 				tiles[y][x].left = tiles[y][x-1]
 				tiles[y][x].right = null
 			else:
@@ -184,7 +185,7 @@ func locate_neighbors():
 			if y == 0:
 				tiles[y][x].bottom_middle = null
 				tiles[y][x].top_middle = tiles[y+1][x]
-			elif y == 15:
+			elif y == resolution - 1:
 				tiles[y][x].top_middle = null
 				tiles[y][x].bottom_middle = tiles[y-1][x]
 			else:
@@ -197,7 +198,7 @@ func locate_neighbors():
 				if x == 0:
 					tiles[y][x].top_left = null
 					tiles[y][x].top_right = tiles[y+1][x+1]
-				elif x == 15:
+				elif x == resolution - 1:
 					tiles[y][x].top_left = tiles[y+1][x-1]
 					tiles[y][x].top_right = null
 				else:
@@ -205,11 +206,11 @@ func locate_neighbors():
 					tiles[y][x].top_right = tiles[y+1][x+1]
 				tiles[y][x].bottom_left = null
 				tiles[y][x].bottom_right = null
-			elif y == 15:
+			elif y == resolution - 1:
 				if x == 0:
 					tiles[y][x].bottom_left = null
 					tiles[y][x].bottom_right = tiles[y-1][x+1]
-				elif x == 15:
+				elif x == resolution - 1:
 					tiles[y][x].bottom_left = tiles[y-1][x-1]
 					tiles[y][x].bottom_right = null
 				else:
@@ -223,7 +224,7 @@ func locate_neighbors():
 					tiles[y][x].bottom_left = null
 					tiles[y][x].top_right = tiles[y+1][x+1]
 					tiles[y][x].bottom_right = tiles[y-1][x-1]
-				elif x == 15:
+				elif x == resolution - 1:
 					tiles[y][x].top_left = tiles[y+1][x-1]
 					tiles[y][x].bottom_left = tiles[y-1][x-1]
 					tiles[y][x].top_right = null
