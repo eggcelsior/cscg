@@ -53,6 +53,7 @@ mesh = SubResource("PlaneMesh_xsfnp")
 shape = SubResource("ConcavePolygonShape3D_i13wj")
 
 [node name="generation_test" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 16)
 script = ExtResource("3_1irwe")
 heightmap = SubResource("FastNoiseLite_5lscr")
 tile_size = 2.0
@@ -62,7 +63,7 @@ tile_size = 2.0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="generation_test/StaticBody3D"]
 
 [node name="generation_test2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 16)
 script = ExtResource("3_1irwe")
 heightmap = SubResource("FastNoiseLite_5lscr")
 tile_size = 2.0
@@ -72,7 +73,7 @@ tile_size = 2.0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="generation_test2/StaticBody3D"]
 
 [node name="generation_test3" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0, 16)
 script = ExtResource("3_1irwe")
 heightmap = SubResource("FastNoiseLite_5lscr")
 tile_size = 2.0
@@ -82,7 +83,7 @@ tile_size = 2.0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="generation_test3/StaticBody3D"]
 
 [node name="generation_test4" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 16)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 32)
 script = ExtResource("3_1irwe")
 heightmap = SubResource("FastNoiseLite_5lscr")
 tile_size = 2.0
@@ -92,7 +93,7 @@ tile_size = 2.0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="generation_test4/StaticBody3D"]
 
 [node name="generation_test5" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 16)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 32)
 script = ExtResource("3_1irwe")
 heightmap = SubResource("FastNoiseLite_5lscr")
 tile_size = 2.0
@@ -102,7 +103,7 @@ tile_size = 2.0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="generation_test5/StaticBody3D"]
 
 [node name="generation_test6" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0, 16)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0, 32)
 script = ExtResource("3_1irwe")
 heightmap = SubResource("FastNoiseLite_5lscr")
 tile_size = 2.0
@@ -110,6 +111,35 @@ tile_size = 2.0
 [node name="StaticBody3D" type="StaticBody3D" parent="generation_test6"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="generation_test6/StaticBody3D"]
+
+[node name="generation_test7" type="MeshInstance3D" parent="."]
+script = ExtResource("3_1irwe")
+heightmap = SubResource("FastNoiseLite_5lscr")
+tile_size = 2.0
+
+[node name="StaticBody3D" type="StaticBody3D" parent="generation_test7"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="generation_test7/StaticBody3D"]
+
+[node name="generation_test8" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 0)
+script = ExtResource("3_1irwe")
+heightmap = SubResource("FastNoiseLite_5lscr")
+tile_size = 2.0
+
+[node name="StaticBody3D" type="StaticBody3D" parent="generation_test8"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="generation_test8/StaticBody3D"]
+
+[node name="generation_test9" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0, 0)
+script = ExtResource("3_1irwe")
+heightmap = SubResource("FastNoiseLite_5lscr")
+tile_size = 2.0
+
+[node name="StaticBody3D" type="StaticBody3D" parent="generation_test9"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="generation_test9/StaticBody3D"]
 
 [node name="LineRenderer" type="Node3D" parent="."]
 script = ExtResource("3_xr4r6")

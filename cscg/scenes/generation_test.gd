@@ -46,7 +46,6 @@ func find_closest_tile(ray_pos: Vector3):
 
 func deform_tile(ray_pos: Vector3, mouse_button: int):
 	var closest_tile: Tile = find_closest_tile(ray_pos)
-	print(closest_tile.center_position, " ", get_tree().get_first_node_in_group("player").global_position)
 	#SHOULD NOW HAVE CLOSEST TILE
 	var smallest_vertex: float
 	var value: float = INF

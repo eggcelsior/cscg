@@ -31,7 +31,7 @@ var hunting_chance: float = 0.1
 
 var hunger: float = 100.0
 var health: float = 100.0
-@export var player_range: float = 24
+@export var player_range: float = 32
 #endregion
 
 func _ready() -> void:
@@ -69,7 +69,8 @@ func _physics_process(delta: float) -> void:
 			var point = ray.get_collision_point()
 			if collider.get_parent() is GenTest:
 				current_tile = collider.get_parent().find_closest_tile(point)
-				if current_tile.center_position.distance_squared_to(global_position) > collider.get_parent().tile_size * player_range:
+				#if (current_tile.center_position).distance_squared_to(global_position - collider.global_position) > collider.get_parent().tile_size * player_range:
+				if global_position.distance_squared_to(point) > player_range:
 					return
 				collider.get_parent().deform_tile(point, 0)
 				#line_renderer.clear_meshes()
@@ -87,7 +88,8 @@ func _physics_process(delta: float) -> void:
 			var point = ray.get_collision_point()
 			if collider.get_parent() is GenTest:
 				current_tile = collider.get_parent().find_closest_tile(point)
-				if current_tile.center_position.distance_squared_to(global_position) > collider.get_parent().tile_size * player_range:
+				#if (current_tile.center_position).distance_squared_to(global_position - collider.global_position) > collider.get_parent().tile_size * player_range:
+				if global_position.distance_squared_to(point) > player_range:
 					return
 				collider.get_parent().deform_tile(point, 1)
 				#line_renderer.clear_meshes()
@@ -105,7 +107,8 @@ func _physics_process(delta: float) -> void:
 			var point = ray.get_collision_point()
 			if collider.get_parent() is GenTest:
 				current_tile = collider.get_parent().find_closest_tile(point)
-				if current_tile.center_position.distance_squared_to(global_position) > collider.get_parent().tile_size * player_range:
+				#if (current_tile.center_position).distance_squared_to(global_position - collider.global_position) > collider.get_parent().tile_size * player_range:
+				if global_position.distance_squared_to(point) > player_range:
 					return
 				collider.get_parent().deform_tile(point, 3)
 				#line_renderer.clear_meshes()
@@ -147,9 +150,13 @@ func find_closest_tile():
 		var point = ray.get_collision_point()
 		if collider.get_parent() is GenTest:
 			current_tile = collider.get_parent().find_closest_tile(point)
-			if current_tile.center_position.distance_squared_to(global_position) > collider.get_parent().tile_size * player_range:
+			
+			if global_position.distance_squared_to(point) > player_range:
 				line_renderer.clear_meshes()
 				return
+			#if (current_tile.center_position).distance_squared_to(global_position - collider.global_position) > collider.get_parent().tile_size * player_range:
+				#line_renderer.clear_meshes()
+				#return
 			line_renderer.clear_meshes()
 			line_renderer.render_line(current_tile.vertices_position[0] + collider.global_position, current_tile.vertices_position[1] + collider.global_position)
 			line_renderer.render_line(current_tile.vertices_position[0] + collider.global_position, current_tile.vertices_position[2] + collider.global_position)
