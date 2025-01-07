@@ -67,7 +67,7 @@ func _physics_process(delta: float) -> void:
 		if ray.is_colliding():
 			var collider = ray.get_collider()
 			var point = ray.get_collision_point()
-			if collider.get_parent() is GenTest:
+			if collider.get_parent() is Chunk:
 				current_tile = collider.get_parent().find_closest_tile(point)
 				#if (current_tile.center_position).distance_squared_to(global_position - collider.global_position) > collider.get_parent().tile_size * player_range:
 				if global_position.distance_squared_to(point) > player_range:
@@ -86,7 +86,7 @@ func _physics_process(delta: float) -> void:
 		if ray.is_colliding():
 			var collider = ray.get_collider()
 			var point = ray.get_collision_point()
-			if collider.get_parent() is GenTest:
+			if collider.get_parent() is Chunk:
 				current_tile = collider.get_parent().find_closest_tile(point)
 				#if (current_tile.center_position).distance_squared_to(global_position - collider.global_position) > collider.get_parent().tile_size * player_range:
 				if global_position.distance_squared_to(point) > player_range:
@@ -105,7 +105,7 @@ func _physics_process(delta: float) -> void:
 		if ray.is_colliding():
 			var collider = ray.get_collider()
 			var point = ray.get_collision_point()
-			if collider.get_parent() is GenTest:
+			if collider.get_parent() is Chunk:
 				current_tile = collider.get_parent().find_closest_tile(point)
 				#if (current_tile.center_position).distance_squared_to(global_position - collider.global_position) > collider.get_parent().tile_size * player_range:
 				if global_position.distance_squared_to(point) > player_range:
@@ -148,7 +148,7 @@ func find_closest_tile():
 	if ray.is_colliding():
 		var collider = ray.get_collider()
 		var point = ray.get_collision_point()
-		if collider.get_parent() is GenTest:
+		if collider.get_parent() is Chunk:
 			current_tile = collider.get_parent().find_closest_tile(point)
 			
 			if global_position.distance_squared_to(point) > player_range:

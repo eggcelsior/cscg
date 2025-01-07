@@ -1,6 +1,6 @@
 extends Node3D
 
-func render_line(pos1: Vector3, pos2: Vector3, color = Color.DARK_BLUE):
+func render_line(pos1: Vector3, pos2: Vector3, color = Color.WHITE_SMOKE):
 	var mesh_instance := MeshInstance3D.new()
 	var material := ORMMaterial3D.new()
 	

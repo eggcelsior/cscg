@@ -1,13 +1,13 @@
 extends MeshInstance3D
-class_name GenTest
+class_name Chunk
 
 var tiles = []
 @export var resolution: int = 16
 @export var heightmap: FastNoiseLite
 @export var terrain_height_multiplyer: float = 10.0
-@export var tile_size: float = 1
+@export var tile_size: float = 2
 
-func _ready():
+func init_chunk():
 	tiles.resize(resolution)
 	for i in tiles.size():
 		tiles[i] = []
@@ -30,6 +30,13 @@ func _ready():
 					3:
 						new_tile.vertices_position[k] = Vector3(new_tile.center_position.x + (tile_size / 2), 0, new_tile.center_position.z + (tile_size / 2))
 	generate()
+
+func set_data(resolution: int, heightmap: FastNoiseLite, terrain_height_multiplyer: float, tile_size: int):
+	self.resolution = resolution
+	self.heightmap = heightmap
+	self.terrain_height_multiplyer = terrain_height_multiplyer
+	self.tile_size = tile_size
+
 func find_closest_tile(ray_pos: Vector3):
 	var closest_tile: Tile = null
 	var closest_distance: float = INF
@@ -169,25 +176,11 @@ func generate():
 			start_noise_position.x += 1
 		start_noise_position.x = 1+global_position.x
 		start_noise_position.y += 1
-	#var previous_position = 0
-	#var sorted_vectors = []
-	#for y in resolution:
-		#for x in resolution:
-			#for i in 4:
-				#tiles[y][x].vertices[i] = vertex_data[previous_position]
-				#previous_position += 1
-				#tiles[y][x].vertices_position[i].y = tiles[y][x].vertices[i]
-				#sorted_vectors.append(tiles[y][x].vertices_position[i])
-	
-	#print(tiles[0][0].vertices_position, "\n", tiles[0][1].vertices_position)
 	locate_neighbors()
 	for y in resolution:
 		for x in resolution:
 			for i in 4:
 				tiles[y][x].vertices_position[i].y = tiles[y][x].vertices[i]
-			#print(tiles[y][x].vertices)
-			#if x % 2 != 0:
-				#print("\n\n")
 	var st = SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
 	st.set_smooth_group(-1)
@@ -271,76 +264,3 @@ func locate_neighbors():
 					tiles[y][x].bottom_right = tiles[y-1][x-1]
 					tiles[y][x].top_left = tiles[y+1][x-1]
 					tiles[y][x].bottom_left = tiles[y-1][x-1]
-			#END CHECK CORNERS
-			
-			##CHECK VERTICES
-			##CHECK BOTTOM LEFT
-			#if left != null && left.vertices[1] < tiles[y][x].vertices[0]:
-				#tiles[y][x].vertices[0] = left.vertices[1]
-			#else:
-				#if left != null:
-					#left.vertices[1] = tiles[y][x].vertices[0]
-			#if bottom_left != null && bottom_left.vertices[3] < tiles[y][x].vertices[0]:
-				#tiles[y][x].vertices[0] = bottom_left.vertices[3]
-			#else:
-				#if bottom_left != null:
-					#bottom_left.vertices[3] = tiles[y][x].vertices[0]
-			#if bottom_middle != null && bottom_middle.vertices[2] < tiles[y][x].vertices[0]:
-				#tiles[y][x].vertices[0] = bottom_middle.vertices[2]
-			#else:
-				#if bottom_middle != null:
-					#bottom_middle.vertices[2] = tiles[y][x].vertices[0]
-			##CHECK BOTTOM RIGHT
-			#if bottom_middle != null && bottom_middle.vertices[3] < tiles[y][x].vertices[1]:
-				#tiles[y][x].vertices[1] = bottom_middle.vertices[3]
-			#else:
-				#if bottom_middle != null:
-					#bottom_middle.vertices[3] = tiles[y][x].vertices[1]
-			#if bottom_right != null && bottom_right.vertices[2] < tiles[y][x].vertices[1]:
-				#tiles[y][x].vertices[1] = bottom_right.vertices[2]
-			#else:
-				#if bottom_right != null:
-					#bottom_right.vertices[2] = tiles[y][x].vertices[0]
-			#if right != null && right.vertices[0] < tiles[y][x].vertices[1]:
-				#tiles[y][x].vertices[1] = right.vertices[0]
-			#else:
-				#if right != null:
-					#right.vertices[0] = tiles[y][x].vertices[1]
-			##CHECK TOP RIGHT
-			#if right != null && right.vertices[2] < tiles[y][x].vertices[3]:
-				#tiles[y][x].vertices[3] = right.vertices[2]
-			#else:
-				#if right != null:
-					#right.vertices[2] = tiles[y][x].vertices[3]
-			#if top_right != null && top_right.vertices[0] < tiles[y][x].vertices[3]:
-				#tiles[y][x].vertices[3] = top_right.vertices[0]
-			#else:
-				#if top_right != null:
-					#top_right.vertices[0] = tiles[y][x].vertices[3]
-			#if top_middle != null && top_middle.vertices[1] < tiles[y][x].vertices[3]:
-				#tiles[y][x].vertices[3] = top_middle.vertices[1]
-			#else:
-				#if top_middle != null:
-					#top_middle.vertices[1] = tiles[y][x].vertices[3]
-			##CHECK TOP LEFT
-			#if top_middle != null && top_middle.vertices[0] < tiles[y][x].vertices[2]:
-				#tiles[y][x].vertices[2] = top_middle.vertices[0]
-			#else:
-				#if top_middle != null:
-					#top_middle.vertices[0] = tiles[y][x].vertices[2]
-			#if top_left != null && top_left.vertices[1] < tiles[y][x].vertices[2]:
-				#tiles[y][x].vertices[2] = top_left.vertices[1]
-			#else:
-				#if top_left != null:
-					#top_left.vertices[1] = tiles[y][x].vertices[2]
-			#if left != null && left.vertices[3] < tiles[y][x].vertices[2]:
-				#tiles[y][x].vertices[2] = left.vertices[3]
-			#else:
-				#if left != null:
-					#left.vertices[3] = tiles[y][x].vertices[2]
-			##END CHECK VERTICES
-	#print(tiles[1][2].vertices[2], " ", tiles[1][2].vertices[3], "___", tiles[1][3].vertices[2], " ", tiles[1][3].vertices[3])
-	#print(tiles[1][2].vertices[0], " ", tiles[1][2].vertices[1], "___", tiles[1][3].vertices[0], " ", tiles[1][3].vertices[1])
-	#print(tiles[0][2].vertices[2], " ", tiles[0][2].vertices[3], "___", tiles[0][3].vertices[2], " ", tiles[0][3].vertices[3])
-	#print(tiles[0][2].vertices[0], " ", tiles[0][2].vertices[1], "___", tiles[0][3].vertices[0], " ", tiles[0][3].vertices[1])
-		#
