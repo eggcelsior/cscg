@@ -162,8 +162,6 @@ func rebuild_mesh():
 	$StaticBody3D/CollisionShape3D.shape = mesh.create_trimesh_shape()
 	
 func generate():
-	#var x_count = 0
-	#var y_count = 0
 	var vertex_data: PackedFloat32Array = []
 	var start_noise_position = Vector2(1+global_position.x, 1+global_position.z)
 	var multiplyer := terrain_height_multiplyer * tile_size

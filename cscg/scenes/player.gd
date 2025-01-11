@@ -59,6 +59,10 @@ func _physics_process(delta: float) -> void:
 		speed = walk_speed
 	
 	find_closest_tile()
+	if Input.is_action_just_pressed("ui_up"):
+		sprint_speed *= 50
+	if Input.is_action_just_pressed("ui_down"):
+		sprint_speed /= 50
 	
 	if Input.is_action_just_pressed("left_click"):
 		ray.target_position = Vector3(0, 0, -150)
@@ -97,7 +101,7 @@ func _physics_process(delta: float) -> void:
 				#line_renderer.render_line(current_tile.vertices_position[0], current_tile.vertices_position[2])
 				#line_renderer.render_line(current_tile.vertices_position[2], current_tile.vertices_position[3])
 				#line_renderer.render_line(current_tile.vertices_position[3], current_tile.vertices_position[1])
-
+	
 	if Input.is_action_just_pressed("middle_click"):
 		ray.target_position = Vector3(0, 0, -150)
 		ray.force_raycast_update()

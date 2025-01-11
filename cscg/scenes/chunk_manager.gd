@@ -11,11 +11,11 @@ var chunks = []
 @onready var chunk_scene = preload("res://scenes/chunk.tscn")
 
 func _ready():
-	chunks.resize(16)
+	chunks.resize(1)
 	var world_position = Vector3(0, 0, 0)
 	for y in chunks.size():
 		chunks[y] = []
-		chunks[y].resize(16)
+		chunks[y].resize(1)
 		for x in chunks.size():
 			var instance = chunk_scene.instantiate()
 			chunks[y][x] = instance

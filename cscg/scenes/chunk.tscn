@@ -1,8 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://dinfbt4xva646"]
+[gd_scene load_steps=4 format=3 uid="uid://dinfbt4xva646"]
 
 [ext_resource type="Script" path="res://scenes/chunk.gd" id="1_ody2g"]
+[ext_resource type="Texture2D" uid="uid://bbflc3cbwdgon" path="res://assets/art/461223101.jpg" id="1_q8gm6"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lyi82"]
+albedo_texture = ExtResource("1_q8gm6")
+metallic_specular = 0.0
+uv1_triplanar = true
 
 [node name="Chunk" type="MeshInstance3D"]
+material_override = SubResource("StandardMaterial3D_lyi82")
 script = ExtResource("1_ody2g")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
