@@ -42,8 +42,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		head.rotate_y(-event.relative.x * sensitivity)
 		camera.rotate_x(-event.relative.y * sensitivity)
 		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-90), deg_to_rad(90))
-
+@onready var ui_text = get_tree().get_first_node_in_group("ui_text")
 func _physics_process(delta: float) -> void:
+	ui_text.text = str(Engine.get_frames_per_second())
 	if Input.is_action_just_pressed("quit"):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	

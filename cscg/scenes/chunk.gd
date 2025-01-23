@@ -6,6 +6,7 @@ var tiles = []
 @export var heightmap: FastNoiseLite
 @export var terrain_height_multiplyer: float = 10.0
 @export var tile_size: float = 2
+@export var material: Material
 
 func init_chunk():
 	tiles.resize(resolution)
@@ -30,12 +31,14 @@ func init_chunk():
 					3:
 						new_tile.vertices_position[k] = Vector3(new_tile.center_position.x + (tile_size / 2), 0, new_tile.center_position.z + (tile_size / 2))
 	generate()
+	material_override = material
 
-func set_data(resolution: int, heightmap: FastNoiseLite, terrain_height_multiplyer: float, tile_size: int):
+func set_data(resolution: int, heightmap: FastNoiseLite, terrain_height_multiplyer: float, tile_size: int, material: Material):
 	self.resolution = resolution
 	self.heightmap = heightmap
 	self.terrain_height_multiplyer = terrain_height_multiplyer
 	self.tile_size = tile_size
+	self.material = material
 
 func find_closest_tile(ray_pos: Vector3):
 	var closest_tile: Tile = null
