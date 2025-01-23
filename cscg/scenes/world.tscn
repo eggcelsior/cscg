@@ -75,6 +75,7 @@ script = ExtResource("3_xr4r6")
 [node name="Chunk Manager" parent="." instance=ExtResource("3_7e03q")]
 heightmap = SubResource("FastNoiseLite_q7pr1")
 material = SubResource("ShaderMaterial_t1cdn")
+chunk_size = 64
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

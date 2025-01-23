@@ -31,3 +31,4 @@ func _ready():
 		world_position.z += resolution #* tile_size
 		world_position.x = 0
 		print(y)
+	print("World Size: " + str(sqrt((chunk_size * chunk_size * 16.0 * 2.0) / 100.0)) + " Square Kilometers")
